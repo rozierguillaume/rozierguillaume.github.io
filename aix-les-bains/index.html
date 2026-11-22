@@ -49,7 +49,7 @@ li.done h3{color:var(--mute);text-decoration:line-through}
 </head>
 <body>
 <div id="map"></div>
-<header><h1>Aix-les-Bains Belle Époque</h1><p>9 étapes · ≈ 2,5 à 3 km · 1 h 30</p></header>
+<header><h1>Aix-les-Bains Belle Époque</h1><p>11 étapes · ≈ 2,5 à 3 km · 1 h 30</p></header>
 <div class="fab">
   <button id="locate" aria-label="Me localiser" title="Me localiser">◎</button>
   <button id="fit" aria-label="Voir tout le parcours" title="Voir tout le parcours">⤢</button>
@@ -64,17 +64,19 @@ li.done h3{color:var(--mute);text-decoration:line-through}
 <script>
 {
 const S=[
- {n:"Place du Revard",d:"Point de départ, face au Grand Hôtel. La place doit son nom au train à crémaillère qui montait au Mont Revard.",p:[45.6884,5.9139],a:1},
- {n:"Rue de Genève & ruelle du Revêt",d:"La grande rue commerçante, ancienne route royale, puis une ruelle étroite en coude du centre historique.",p:[45.6893,5.9152],a:1},
- {n:"Place Carnot",d:"L'ancienne « place centrale », où la rue de Genève devenait la route de Chambéry.",p:[45.6886,5.9144],a:1},
- {n:"Hôtel de Ville & Arc de Campanus",d:"L'ancien château des marquis d'Aix et, juste à côté, l'arc funéraire romain (Ier siècle).",p:[45.6889,5.9150]},
- {n:"Casino Grand Cercle",d:"Inauguré en 1850 par Victor-Emmanuel II : plafonds en mosaïque et théâtre à l'italienne.",p:[45.6886,5.9128]},
- {n:"Le Grand Hôtel",d:"1858, place du Revard. Hôtel Royal, puis Impérial, puis Grand-Hôtel d'Aix ; surélevé vers 1900.",p:[45.6881,5.9136]},
- {n:"L'ancien Hôtel de l'Europe",d:"Ancien Hôtel du Globe, tenu par Bernascon ; aujourd'hui l'immeuble Europe-Béatrice, rue du Casino / avenue Victoria.",p:[45.6875,5.9141],a:1},
- {n:"Le Palace Bernascon",d:"6 boulevard de la Roche-du-Roi, sur les coteaux. Restauré après l'incendie de 2015.",p:[45.6845,5.9165]},
- {n:"Splendide, Royal & Excelsior",d:"Rue Georges-Ier : le trio de palaces des coteaux (1884, 1906, 1913). Georges Ier de Grèce y passait ses étés.",p:[45.6869,5.9188],
-  extra:[["Excelsior",[45.68627,5.91796]],["Royal",[45.68718,5.91890]],["Splendide",[45.68694,5.91882]]]}
+ {n:"Place du Revard",d:"Point de départ. Elle tient son nom du mont Revard, la montagne qui domine la ville à l'est. À la Belle Époque, un train à crémaillère y emmenait les curistes. Au n° 3 se dresse le Grand Hôtel.",p:[45.6884,5.9139],a:1},
+ {n:"Rue de Genève",d:"La grande rue commerçante. Elle suit le tracé de l'ancienne route royale de Genève à Chambéry. Au début du XXe siècle, un tramway la parcourait.",p:[45.6893,5.9146],a:1},
+ {n:"Ruelle du Revêt",d:"Une ruelle étroite qui forme un coude, entre la rue Davat et la place des Thermes. Elle garde le tracé tortueux de la vieille ville d'avant les palaces.",p:[45.6893,5.9157],a:1},
+ {n:"Place Carnot",d:"L'ancienne « place centrale » du bourg. C'est là que la rue de Genève devenait la route de Chambéry.",p:[45.6887,5.9143],a:1},
+ {n:"Hôtel de Ville & Arc de Campanus",d:"Le château des marquis d'Aix (XVIe siècle) est devenu mairie au XIXe siècle. Son escalier Renaissance réemploie des pierres romaines. Juste devant, l'Arc de Campanus est un monument funéraire romain du Ier siècle. Le temple romain dit « de Diane » est tout proche.",p:[45.68855,5.91478]},
+ {n:"Casino Grand Cercle",d:"Inauguré en 1850 par Victor-Emmanuel II, quand la Savoie était encore sarde. À l'intérieur : des plafonds en mosaïque et un théâtre à l'italienne.",p:[45.6886,5.9128]},
+ {n:"Le Grand Hôtel",d:"Construit en 1858 par Pellegrini. Il s'est appelé Hôtel Royal, puis Impérial (1860), puis Grand-Hôtel d'Aix (1870). Il a été surélevé de deux étages vers 1900.",p:[45.68810,5.91357]},
+ {n:"L'Hôtel de l'Europe",d:"D'abord Hôtel du Globe, puis Grand Hôtel de l'Europe, tenu par la famille Bernascon. La Villa Béatrice l'a agrandi en 1909. Il a été converti en appartements dans les années 1950 (immeuble Europe-Béatrice).",p:[45.6875,5.9141],a:1},
+ {n:"Le Palace Bernascon",d:"Perché sur les coteaux, boulevard de la Roche-du-Roi, avec vue sur le lac. Ce monument historique a été ravagé par un incendie en 2015, puis restauré.",p:[45.68451,5.91645]},
+ {n:"Le Splendide",d:"Le premier palace des coteaux (1881-1884), dessiné par Antoine Gouy. Pari audacieux à l'époque, il a été suivi de l'Excelsior et du Royal. Ses salons sont décorés de fresques. La rue honore Georges Ier de Grèce, fidèle curiste de ces palaces.",p:[45.68694,5.91882]},
+ {n:"L'Excelsior",d:"Ouvert en 1906 à deux pas du Splendide, aujourd'hui Résidence Beauregard. Son escalier d'honneur est réputé. Le Royal (1913), voisin, complète le trio.",p:[45.68627,5.91796]}
 ];
+const X=[["Arc de Campanus",[45.68906,5.91545]],["Temple de Diane",[45.68864,5.91466]],["Palace Royal",[45.68718,5.91890]]];
 const $=id=>document.getElementById(id);
 let done=new Set(),me=null,meMk=null,acc=null,watch=null,sel=-1;
 try{done=new Set(JSON.parse(localStorage.getItem('aix-done')||'[]'))}catch(e){}
@@ -86,7 +88,7 @@ L.polyline(S.map(s=>s.p),{color:'#b8862b',weight:4,opacity:.7,dashArray:'2 9',li
 
 const icon=(i,c)=>L.divIcon({className:'',html:`<div class="pin ${c}"><span>${i+1}</span></div>`,iconSize:[30,30],iconAnchor:[15,30],popupAnchor:[0,-28]});
 const mk=S.map((s,i)=>L.marker(s.p,{icon:icon(i,'')}).addTo(map).bindPopup(`<b>${i+1}. ${s.n}</b><br>${s.d}`).on('click',()=>pick(i,false)));
-S.forEach(s=>(s.extra||[]).forEach(([n,p])=>L.circleMarker(p,{radius:5,color:'#fff',weight:2,fillColor:'#b8862b',fillOpacity:1}).addTo(map).bindTooltip(n,{direction:'top'})));
+X.forEach(([n,p])=>L.circleMarker(p,{radius:5,color:'#fff',weight:2,fillColor:'#b8862b',fillOpacity:1}).addTo(map).bindTooltip(n,{direction:'top'}));
 
 const dist=(a,b)=>{const R=6371e3,r=Math.PI/180,x=(b[1]-a[1])*r*Math.cos((a[0]+b[0])/2*r),y=(b[0]-a[0])*r;return Math.hypot(x,y)*R};
 const fmt=m=>m<1000?Math.round(m/10)*10+' m':(m/1000).toFixed(1).replace('.',',')+' km';
